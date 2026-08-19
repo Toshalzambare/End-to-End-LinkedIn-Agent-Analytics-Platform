@@ -13,9 +13,8 @@ Each screenshot should have the date/time visible (use Windows Snipping Tool whi
 | `step2_signup_dashboard.png` | Step 2 | Dashboard with left sidebar showing "Integration" |
 | `step3_connect_linkedin.png` | Step 3 | LinkedIn tab with "+ Connect LinkedIn Account" button |
 | `step4_credential_modal.png` | Step 4 | The authentication modal (blur your password) |
-| `step5_mfa_handshake.png` | Step 5 | "Establishing secure connection..." screen |
-| `step6_account_age_tier.png` | Step 6 | Account Age selection screen |
-| `step7_agent_running.png` | Step 7 | Leads list and/or agent activity results |
+| `step5_account_age_tier.png` | Step 5 | Account Age selection screen |
+| `step6_agent_running.png` | Step 6 | Leads list and/or agent activity results |
 
 ## Additional Notes File
 
