@@ -1,0 +1,49 @@
+# ==============================================================================
+# Docker Compose — LinkedIn Agent Analytics Platform
+# Full stack: application + persistent volumes
+# ==============================================================================
+
+version: "3.9"
+
+services:
+  pipeline:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: linkedin-analytics-pipeline
+    env_file:
+      - .env
+    environment:
+      - DATABASE_PATH=/app/data/linkedin_analytics.db
+      - LOG_FILE=/app/logs/pipeline.log
+      - LOG_LEVEL=INFO
+      - LOG_FORMAT=json
+      - PYTHONPATH=/app
+    volumes:
+      - pipeline-data:/app/data          # Persistent database storage
+      - pipeline-logs:/app/logs          # Persistent log storage
+    restart: on-failure:3                # Auto-restart on failure (max 3 retries)
+
+  # Optional: run DQ checks independently
+  dq-checker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: linkedin-analytics-dq
+    env_file:
+      - .env
+    environment:
+      - DATABASE_PATH=/app/data/linkedin_analytics.db
+      - PYTHONPATH=/app
+    volumes:
+      - pipeline-data:/app/data
+      - pipeline-logs:/app/logs
+    command: ["python", "scripts/run_dq_checks.py"]
+    profiles:
+      - tools   # Only runs when explicitly invoked: docker compose --profile tools run dq-checker
+
+volumes:
+  pipeline-data:
+    driver: local
+  pipeline-logs:
+    driver: local
